@@ -1,30 +1,24 @@
-import { Button } from "@/components/ui/button";
 import { Newspaper, SquareUser } from "lucide-react";
-import Link from "next/link";
+import { NavItemLink } from "./nav-item-link";
 
 export const NavItems = () => {
   const navItems = [
     {
       label: "Currículos",
-      icon: Newspaper,
+      icon: <Newspaper size={16} />,
       path: "/dashboard/resumes",
     },
     {
       label: "Configurações da Conta",
-      icon: SquareUser,
+      icon: <SquareUser size={16} />,
       path: "/dashboard/account",
     },
   ];
 
   return (
     <nav className="w-full flex flex-col gap-2 px-2 py-4">
-      {navItems.map(({ label, icon: Icon, path }) => (
-        <Link key={path} href={path}>
-          <Button variant="ghost" className="w-full gap-2 justify-start">
-            <Icon size={16} />
-            {label}
-          </Button>
-        </Link>
+      {navItems.map((item) => (
+        <NavItemLink key={item.path} {...item} />
       ))}
     </nav>
   );
