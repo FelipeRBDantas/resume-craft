@@ -1,14 +1,16 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { Dialog, type BaseDialogProps } from "@/components/ui/dialog";
-import { useForm } from "react-hook-form";
+import { InputField } from "@/components/ui/input/field";
+import { FormProvider, useForm } from "react-hook-form";
 
 type FormData = {
   title: string;
 };
 
 export const NewResumeDialog = (props: BaseDialogProps) => {
-  const { control, handleSubmit } = useForm<FormData>();
+  const methods = useForm<FormData>();
 
   const onSubmit = (data: FormData) => {
     console.log(data);
@@ -20,9 +22,18 @@ export const NewResumeDialog = (props: BaseDialogProps) => {
       title="Criar novo currículo"
       description="Para começar, escolha um título para seu currículo"
       content={
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <button type="submit">Confirmar</button>
-        </form>
+        <FormProvider {...methods}>
+          <form
+            className="flex flex-col"
+            onSubmit={methods.handleSubmit(onSubmit)}
+          >
+            <InputField label="Título" name="title" required />
+
+            <Button type="submit" className="w-max mt-6 ml-auto">
+              Criar
+            </Button>
+          </form>
+        </FormProvider>
       }
     />
   );
