@@ -11,7 +11,21 @@ import { StructureSidebar } from "./structure-sidebar";
 import { FormProvider, useForm } from "react-hook-form";
 
 export const ResumePage = () => {
-  const methods = useForm<ResumeData>();
+  const defaultValues: ResumeData = {
+    content: {
+      image: { url: "", visible: true },
+      infos: {
+        email: "",
+        fullName: "",
+        headLine: "",
+        location: "",
+        phone: "",
+        website: "",
+      },
+    },
+  };
+
+  const methods = useForm<ResumeData>({ defaultValues });
 
   return (
     <FormProvider {...methods}>
