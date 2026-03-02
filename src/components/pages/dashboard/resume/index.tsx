@@ -37,7 +37,7 @@ export const ResumePage = () => {
 
           <ResizableHandle withHandle />
 
-          <ResizablePanel>
+          <ResizablePanel defaultSize={45}>
             <ResumeContent />
           </ResizablePanel>
 

@@ -13,7 +13,7 @@ export const SwitchField = ({ name, ...props }: SwitchFieldProps) => {
     <Controller
       control={control}
       name={name}
-      render={({ field, fieldState }) => (
+      render={({ field }) => (
         <Switch
           {...props}
           checked={field.value}
