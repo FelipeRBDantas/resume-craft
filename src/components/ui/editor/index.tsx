@@ -55,7 +55,7 @@ export const Editor = ({ value, onChange, className }: EditorProps) => {
     >
       <MenuBar editor={editor} />
 
-      <div className="">
+      <div className="h-full [&>div]:h-full flex flex-col overflow-y-auto">
         <EditorContent editor={editor} />
       </div>
     </div>
