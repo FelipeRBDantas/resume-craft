@@ -9,9 +9,13 @@ import {
   Share2,
 } from "lucide-react";
 import { Fragment } from "react";
+import {
+  MultipleDragList,
+  type MultipleDragItemData,
+} from "../multiple-drag-list";
 
 export const MultiplesSection = () => {
-  const sectionsKeys: any[] = [
+  const sectionsKeys: MultipleDragItemData[] = [
     {
       formKey: "socialMedias",
       title: "Redes Sociais",
@@ -66,8 +70,14 @@ export const MultiplesSection = () => {
   return (
     <div>
       {sectionsKeys.map((section) => (
-        <Fragment key={section.formKey}>
+        <Fragment key={`multiple-section-${section.formKey.toString()}`}>
           <Separator className="my-5" />
+
+          <MultipleDragList
+            data={section}
+            onAdd={() => {}}
+            onEdit={(index) => {}}
+          />
         </Fragment>
       ))}
     </div>
