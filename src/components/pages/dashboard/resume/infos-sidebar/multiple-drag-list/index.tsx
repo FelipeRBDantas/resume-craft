@@ -1,4 +1,4 @@
-import type { LucideIcon } from "lucide-react";
+import { GripVertical, type LucideIcon } from "lucide-react";
 import { SectionTitle } from "../section-title";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import {
@@ -55,7 +55,7 @@ export const MultipleDragList = ({
                 <div
                   {...provided.droppableProps}
                   ref={provided.innerRef}
-                  className="bg-red-500"
+                  className="rounded border border-muted overflow-hidden"
                 >
                   {fields.map((field, index) => (
                     <Draggable
@@ -68,20 +68,30 @@ export const MultipleDragList = ({
                           key={field.id}
                           ref={provided.innerRef}
                           {...provided.draggableProps}
-                          className="h-16 bg-blue-400"
+                          className="h-16 w-full bg-muted/50 flex"
                         >
                           <div
                             {...provided.dragHandleProps}
-                            className="w-6 h-full bg-green-400"
-                          ></div>
+                            className="w-6 h-full bg-muted/50 flex items-center justify-center hover:brightness-125 transition-all"
+                          >
+                            <GripVertical size={14} />
+                          </div>
 
-                          <div className="flex-1">
-                            <p>content</p>
+                          <div className="flex-1 flex flex-col justify-center px-3 cursor-pointer hover:bg-muted/80 transition-all">
+                            <p className="text-sm font-title font-bold">
+                              Título
+                            </p>
+
+                            <p className="text-xs text-muted-foreground">
+                              Descrição
+                            </p>
                           </div>
                         </div>
                       )}
                     </Draggable>
                   ))}
+
+                  {provided.placeholder}
                 </div>
               )}
             </Droppable>
