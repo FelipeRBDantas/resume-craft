@@ -26,15 +26,15 @@ export const ResumePage = () => {
       socialMedias: [
         {
           icon: "",
-          name: "test 1",
-          username: "test 1",
-          url: "test 1",
+          name: "Linkedin",
+          username: "Feliperbdantas",
+          url: "https://www.linkedin.com/in/feliperbdantas0101",
         },
         {
           icon: "",
-          name: "test 2",
-          username: "test 2",
-          url: "test 2",
+          name: "Github",
+          username: "Feliperbdantas",
+          url: "https://github.com/feliperbdantas",
         },
       ],
       experiences: [],

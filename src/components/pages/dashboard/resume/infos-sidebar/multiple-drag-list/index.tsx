@@ -1,4 +1,4 @@
-import { GripVertical, type LucideIcon } from "lucide-react";
+import { GripVertical, Plus, type LucideIcon } from "lucide-react";
 import { SectionTitle } from "../section-title";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import {
@@ -7,6 +7,8 @@ import {
   DropResult,
   Droppable,
 } from "@hello-pangea/dnd";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
 export type ResumeArrayKeys = Exclude<
   keyof ResumeContentData,
@@ -39,15 +41,25 @@ export const MultipleDragList = ({
     name: `content.${data.formKey}`,
   });
 
-  const handleDrag = (result: DropResult) => {
-    console.log(result);
+  const handleDrag = ({ source, destination }: DropResult) => {
+    if (!destination) return;
+
+    move(source.index, destination.index);
   };
+
+  const isEmpty = fields.length === 0;
 
   return (
     <div>
       <SectionTitle title={data.title} icon={data.icon} />
 
       <div className="mt-4 flex flex-col">
+        {isEmpty && (
+          <Button variant="outline" className="w-full gap-2" onClick={onAdd}>
+            <Plus size={16} />
+          </Button>
+        )}
+
         {!!fields.length && (
           <DragDropContext onDragEnd={handleDrag}>
             <Droppable droppableId={`droppable-${data.formKey}`}>
@@ -57,39 +69,51 @@ export const MultipleDragList = ({
                   ref={provided.innerRef}
                   className="rounded border border-muted overflow-hidden"
                 >
-                  {fields.map((field, index) => (
-                    <Draggable
-                      key={`draggable-item-${data.formKey}-${index}`}
-                      draggableId={`draggable-item-${data.formKey}-${index}`}
-                      index={index}
-                    >
-                      {(provided) => (
-                        <div
-                          key={field.id}
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          className="h-16 w-full bg-muted/50 flex"
-                        >
+                  {fields.map((field, index) => {
+                    const titleKey = data.titleKey as keyof typeof field;
+
+                    const descriptionKey =
+                      data.descriptionKey as keyof typeof field;
+
+                    const isLastItem = index === fields.length - 1;
+
+                    return (
+                      <Draggable
+                        key={`draggable-item-${data.formKey}-${index}`}
+                        draggableId={`draggable-item-${data.formKey}-${index}`}
+                        index={index}
+                      >
+                        {(provided) => (
                           <div
-                            {...provided.dragHandleProps}
-                            className="w-6 h-full bg-muted/50 flex items-center justify-center hover:brightness-125 transition-all"
+                            key={field.id}
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            className={cn(
+                              "h-16 w-full bg-muted/50 flex",
+                              !isLastItem && "border-b border-muted",
+                            )}
                           >
-                            <GripVertical size={14} />
-                          </div>
+                            <div
+                              {...provided.dragHandleProps}
+                              className="w-6 h-full bg-muted/50 flex items-center justify-center hover:brightness-125 transition-all"
+                            >
+                              <GripVertical size={14} />
+                            </div>
 
-                          <div className="flex-1 flex flex-col justify-center px-3 cursor-pointer hover:bg-muted/80 transition-all">
-                            <p className="text-sm font-title font-bold">
-                              Título
-                            </p>
+                            <div className="flex-1 flex flex-col justify-center px-3 cursor-pointer hover:bg-muted/80 transition-all">
+                              <p className="text-sm font-title font-bold">
+                                {field[titleKey]}
+                              </p>
 
-                            <p className="text-xs text-muted-foreground">
-                              Descrição
-                            </p>
+                              <p className="text-xs text-muted-foreground">
+                                {field[descriptionKey]}
+                              </p>
+                            </div>
                           </div>
-                        </div>
-                      )}
-                    </Draggable>
-                  ))}
+                        )}
+                      </Draggable>
+                    );
+                  })}
 
                   {provided.placeholder}
                 </div>
