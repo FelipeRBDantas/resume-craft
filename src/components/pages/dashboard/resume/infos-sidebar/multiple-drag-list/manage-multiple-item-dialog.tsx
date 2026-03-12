@@ -1,9 +1,15 @@
 import { Dialog } from "@/components/ui/dialog";
 import type { MultipleDragItemData, ResumeArrayKeys } from ".";
-import { useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
+import { Fragment, useMemo } from "react";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { InputField } from "@/components/ui/input/field";
 
 type ManageMultipleItemDialogProps = {
   data: MultipleDragItemData;
+  open: boolean;
+  setOpen: (open: boolean) => void;
 };
 
 type FormConfig<T> = {
@@ -229,12 +235,57 @@ export const ManageMultipleItemDialog = ({
 }: ManageMultipleItemDialogProps) => {
   const methods = useForm();
 
+  const onSubmit = (formData: any) => {
+    console.log(formData);
+  };
+
+  const formContent = useMemo(() => {
+    const config = formConfig[data.formKey];
+
+    return config.map((field, index) => {
+      const fieldType = field?.fieldType ?? "text";
+
+      const isFullWidth = !!field?.fullWidth;
+
+      const inputProps = {
+        name: field.key,
+        label: field.label,
+        containerClassName: cn(isFullWidth && "col-span-full"),
+        required: field.required,
+        placeholder: field.placeholder,
+        type: field.type,
+        className: field.className,
+      };
+
+      return (
+        <Fragment key={index}>
+          {fieldType === "text" && <InputField {...inputProps} />}
+        </Fragment>
+      );
+    });
+  }, [data.formKey]);
+
   return (
     <Dialog
       title="Adicionar novo item"
       open={open}
       setOpen={setOpen}
-      content={<form></form>}
+      content={
+        <form
+          onSubmit={methods.handleSubmit(onSubmit)}
+          className="flex flex-col mt-2"
+        >
+          <div className="grid grid-cols-2 gap-4 mb-4">
+            <FormProvider {...methods}>{formContent}</FormProvider>
+          </div>
+
+          <div className="ml-auto flex gap-3">
+            <Button type="submit" className="w-max">
+              Adicionar
+            </Button>
+          </div>
+        </form>
+      }
     ></Dialog>
   );
 };

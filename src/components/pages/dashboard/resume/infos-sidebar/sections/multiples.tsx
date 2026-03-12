@@ -13,6 +13,7 @@ import {
   MultipleDragList,
   type MultipleDragItemData,
 } from "../multiple-drag-list";
+import { ManageMultipleItemDialog } from "../multiple-drag-list/manage-multiple-item-dialog";
 
 export const MultiplesSection = () => {
   const [sectionToAdd, setSectionToAdd] = useState<MultipleDragItemData | null>(
@@ -84,6 +85,18 @@ export const MultiplesSection = () => {
           />
         </Fragment>
       ))}
+
+      {sectionToAdd && (
+        <ManageMultipleItemDialog
+          data={sectionToAdd}
+          open={!!sectionToAdd}
+          setOpen={(value) => {
+            if (!value) {
+              setSectionToAdd(null);
+            }
+          }}
+        />
+      )}
     </div>
   );
 };
