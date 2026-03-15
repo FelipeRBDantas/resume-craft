@@ -26,14 +26,12 @@ export const EditorField = ({
         required: required && "Campo obrigatório",
       }}
       render={({ field, fieldState }) => (
-        <FieldWrapper label={label} className={containerClassName}>
+        <FieldWrapper
+          label={label}
+          className={containerClassName}
+          error={fieldState?.error}
+        >
           <Editor {...props} {...field} />
-
-          {fieldState.error && (
-            <span className="text-sm text-red-500">
-              {fieldState.error.message}
-            </span>
-          )}
         </FieldWrapper>
       )}
     />
