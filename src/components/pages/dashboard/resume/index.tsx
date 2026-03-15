@@ -24,18 +24,18 @@ export const ResumePage = () => {
       },
       summary: "",
       socialMedias: [
-        {
-          icon: "",
-          name: "Linkedin",
-          username: "Feliperbdantas",
-          url: "https://www.linkedin.com/in/feliperbdantas0101",
-        },
-        {
-          icon: "",
-          name: "Github",
-          username: "Feliperbdantas",
-          url: "https://github.com/feliperbdantas",
-        },
+        // {
+        //   icon: "",
+        //   name: "Linkedin",
+        //   username: "Feliperbdantas",
+        //   url: "https://www.linkedin.com/in/feliperbdantas0101",
+        // },
+        // {
+        //   icon: "",
+        //   name: "Github",
+        //   username: "Feliperbdantas",
+        //   url: "https://github.com/feliperbdantas",
+        // },
       ],
       experiences: [],
       educations: [],

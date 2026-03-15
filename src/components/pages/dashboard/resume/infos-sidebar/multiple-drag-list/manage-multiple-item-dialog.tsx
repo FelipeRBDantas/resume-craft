@@ -5,6 +5,8 @@ import { Fragment, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { InputField } from "@/components/ui/input/field";
+import { EditorField } from "@/components/ui/editor/field";
+import { IconField } from "@/components/ui/icon-input/field";
 
 type ManageMultipleItemDialogProps = {
   data: MultipleDragItemData;
@@ -260,6 +262,14 @@ export const ManageMultipleItemDialog = ({
       return (
         <Fragment key={index}>
           {fieldType === "text" && <InputField {...inputProps} />}
+
+          {fieldType === "editor" && <EditorField {...inputProps} />}
+
+          {fieldType === "icon" && <IconField {...inputProps} />}
+
+          {/* slider */}
+
+          {/* keywords */}
         </Fragment>
       );
     });
