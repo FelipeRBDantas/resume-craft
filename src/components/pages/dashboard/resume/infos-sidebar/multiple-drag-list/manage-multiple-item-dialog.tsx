@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import { InputField } from "@/components/ui/input/field";
 import { EditorField } from "@/components/ui/editor/field";
 import { IconField } from "@/components/ui/icon-input/field";
+import { SliderField } from "@/components/ui/slider/field";
 
 type ManageMultipleItemDialogProps = {
   data: MultipleDragItemData;
@@ -237,6 +238,10 @@ export const ManageMultipleItemDialog = ({
 }: ManageMultipleItemDialogProps) => {
   const methods = useForm();
 
+  const {
+    formState: { isDirty },
+  } = methods;
+
   const onSubmit = (formData: any) => {
     console.log(formData);
   };
@@ -267,7 +272,7 @@ export const ManageMultipleItemDialog = ({
 
           {fieldType === "icon" && <IconField {...inputProps} />}
 
-          {/* slider */}
+          {fieldType === "slider" && <SliderField {...inputProps} />}
 
           {/* keywords */}
         </Fragment>
@@ -290,7 +295,7 @@ export const ManageMultipleItemDialog = ({
           </div>
 
           <div className="ml-auto flex gap-3">
-            <Button type="submit" className="w-max">
+            <Button type="submit" className="w-max" disabled={!isDirty}>
               Adicionar
             </Button>
           </div>
