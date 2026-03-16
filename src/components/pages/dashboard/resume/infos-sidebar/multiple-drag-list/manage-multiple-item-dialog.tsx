@@ -1,9 +1,10 @@
 import { Dialog } from "@/components/ui/dialog";
 import type { MultipleDragItemData, ResumeArrayKeys } from ".";
-import { FormProvider, useForm } from "react-hook-form";
+import { FormProvider, useForm, useWatch } from "react-hook-form";
 import { Fragment, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+
 import { InputField } from "@/components/ui/input/field";
 import { EditorField } from "@/components/ui/editor/field";
 import { IconField } from "@/components/ui/icon-input/field";
@@ -15,10 +16,12 @@ type ManageMultipleItemDialogProps = {
   setOpen: (open: boolean) => void;
 };
 
+type FieldType = "text" | "editor" | "icon" | "slider" | "keywords";
+
 type FormConfig<T> = {
   label: string;
   key: keyof T;
-  fieldType?: "text" | "editor" | "icon" | "slider" | "keywords";
+  fieldType?: FieldType;
   type?: string;
   placeholder?: string;
   fullWidth?: boolean;
@@ -32,12 +35,7 @@ type FormConfigObject = {
 
 const formConfig: FormConfigObject = {
   socialMedias: [
-    {
-      label: "Rede",
-      key: "name",
-      placeholder: "LinkedIn",
-      required: true,
-    },
+    { label: "Rede", key: "name", placeholder: "LinkedIn", required: true },
     {
       label: "Usuário",
       key: "username",
@@ -59,31 +57,17 @@ const formConfig: FormConfigObject = {
       fullWidth: true,
     },
   ],
+
   experiences: [
-    {
-      label: "Empresa",
-      key: "company",
-      required: true,
-    },
-    {
-      label: "Posição",
-      key: "position",
-    },
+    { label: "Empresa", key: "company", required: true },
+    { label: "Posição", key: "position" },
     {
       label: "Data ou intervalo de datas",
       key: "date",
       placeholder: "Janeiro de 2024 - Presente",
     },
-    {
-      label: "Localização",
-      key: "location",
-    },
-    {
-      label: "Site",
-      key: "website",
-      type: "url",
-      fullWidth: true,
-    },
+    { label: "Localização", key: "location" },
+    { label: "Site", key: "website", type: "url", fullWidth: true },
     {
       label: "Descrição",
       key: "summary",
@@ -92,31 +76,17 @@ const formConfig: FormConfigObject = {
       className: "min-h-[200px]",
     },
   ],
+
   educations: [
-    {
-      label: "Instituição",
-      key: "institution",
-      required: true,
-    },
-    {
-      label: "Curso",
-      key: "degree",
-    },
+    { label: "Instituição", key: "institution", required: true },
+    { label: "Curso", key: "degree" },
     {
       label: "Data ou intervalo de datas",
       key: "date",
       placeholder: "Janeiro de 2024 - Presente",
     },
-    {
-      label: "Localização",
-      key: "location",
-    },
-    {
-      label: "Site",
-      key: "website",
-      type: "url",
-      fullWidth: true,
-    },
+    { label: "Localização", key: "location" },
+    { label: "Site", key: "website", type: "url", fullWidth: true },
     {
       label: "Descrição",
       key: "summary",
@@ -125,22 +95,11 @@ const formConfig: FormConfigObject = {
       className: "min-h-[200px]",
     },
   ],
+
   skills: [
-    {
-      label: "Nome",
-      key: "name",
-      required: true,
-    },
-    {
-      label: "Descrição",
-      key: "description",
-    },
-    {
-      label: "Nível",
-      key: "level",
-      fieldType: "slider",
-      fullWidth: true,
-    },
+    { label: "Nome", key: "name", required: true },
+    { label: "Descrição", key: "description" },
+    { label: "Nível", key: "level", fieldType: "slider", fullWidth: true },
     {
       label: "Palavras-chave",
       key: "keywords",
@@ -149,43 +108,18 @@ const formConfig: FormConfigObject = {
       fullWidth: true,
     },
   ],
+
   languages: [
-    {
-      label: "Nome",
-      key: "name",
-      required: true,
-    },
-    {
-      label: "Descrição",
-      key: "description",
-    },
-    {
-      label: "Nível",
-      key: "level",
-      fieldType: "slider",
-      fullWidth: true,
-    },
+    { label: "Nome", key: "name", required: true },
+    { label: "Descrição", key: "description" },
+    { label: "Nível", key: "level", fieldType: "slider", fullWidth: true },
   ],
+
   certifications: [
-    {
-      label: "Nome",
-      key: "name",
-      required: true,
-    },
-    {
-      label: "Instituição",
-      key: "institution",
-    },
-    {
-      label: "Data",
-      key: "date",
-      placeholder: "Janeiro de 2024",
-    },
-    {
-      label: "Site",
-      key: "website",
-      type: "url",
-    },
+    { label: "Nome", key: "name", required: true },
+    { label: "Instituição", key: "institution" },
+    { label: "Data", key: "date", placeholder: "Janeiro de 2024" },
+    { label: "Site", key: "website", type: "url" },
     {
       label: "Descrição",
       key: "summary",
@@ -194,26 +128,16 @@ const formConfig: FormConfigObject = {
       fullWidth: true,
     },
   ],
+
   projects: [
-    {
-      label: "Nome",
-      key: "name",
-      required: true,
-    },
-    {
-      label: "Descrição",
-      key: "description",
-    },
+    { label: "Nome", key: "name", required: true },
+    { label: "Descrição", key: "description" },
     {
       label: "Data ou intervalo de datas",
       key: "date",
       placeholder: "Janeiro de 2024 - Presente",
     },
-    {
-      label: "Site",
-      key: "website",
-      type: "url",
-    },
+    { label: "Site", key: "website", type: "url" },
     {
       label: "Resumo",
       key: "summary",
@@ -231,33 +155,84 @@ const formConfig: FormConfigObject = {
   ],
 };
 
+const FIELD_COMPONENTS: Record<
+  Exclude<FieldType, "keywords">,
+  React.ComponentType<any>
+> = {
+  text: InputField,
+  editor: EditorField,
+  icon: IconField,
+  slider: SliderField,
+};
+
+const getDefaultValueByFieldType = (type?: FieldType) => {
+  switch (type) {
+    case "slider":
+      return 1;
+    case "keywords":
+      return [];
+    default:
+      return "";
+  }
+};
+
+const getDefaultValues = (formKey: ResumeArrayKeys) => {
+  const config = formConfig[formKey];
+
+  return config.reduce<Record<string, unknown>>((acc, field) => {
+    acc[field.key as string] = getDefaultValueByFieldType(field.fieldType);
+    return acc;
+  }, {});
+};
+
 export const ManageMultipleItemDialog = ({
   data,
   open,
   setOpen,
 }: ManageMultipleItemDialogProps) => {
-  const methods = useForm();
+  const methods = useForm({
+    defaultValues: getDefaultValues(data.formKey),
+  });
 
-  const {
-    formState: { isDirty },
-  } = methods;
+  const values = useWatch({
+    control: methods.control,
+  });
 
-  const onSubmit = (formData: any) => {
-    console.log(formData);
-  };
+  const isAllFieldsEmpty = useMemo(() => {
+    return Object.values(values ?? {}).every((value) => {
+      if (value == null) return true;
+
+      if (typeof value === "string") {
+        return value.trim() === "";
+      }
+
+      if (Array.isArray(value)) {
+        return value.length === 0;
+      }
+
+      if (typeof value === "number") {
+        return value === 0;
+      }
+
+      return false;
+    });
+  }, [values]);
 
   const formContent = useMemo(() => {
     const config = formConfig[data.formKey];
 
     return config.map((field, index) => {
-      const fieldType = field?.fieldType ?? "text";
+      if (field.fieldType === "keywords") return null;
 
-      const isFullWidth = !!field?.fullWidth;
+      const fieldType = (field.fieldType ??
+        "text") as keyof typeof FIELD_COMPONENTS;
+
+      const Component = FIELD_COMPONENTS[fieldType];
 
       const inputProps = {
         name: field.key,
         label: field.label,
-        containerClassName: cn(isFullWidth && "col-span-full"),
+        containerClassName: cn(field.fullWidth && "col-span-full"),
         required: field.required,
         placeholder: field.placeholder,
         type: field.type,
@@ -266,19 +241,15 @@ export const ManageMultipleItemDialog = ({
 
       return (
         <Fragment key={index}>
-          {fieldType === "text" && <InputField {...inputProps} />}
-
-          {fieldType === "editor" && <EditorField {...inputProps} />}
-
-          {fieldType === "icon" && <IconField {...inputProps} />}
-
-          {fieldType === "slider" && <SliderField {...inputProps} />}
-
-          {/* keywords */}
+          <Component {...inputProps} />
         </Fragment>
       );
     });
   }, [data.formKey]);
+
+  const onSubmit = (formData: unknown) => {
+    console.log(formData);
+  };
 
   return (
     <Dialog
@@ -290,17 +261,17 @@ export const ManageMultipleItemDialog = ({
           onSubmit={methods.handleSubmit(onSubmit)}
           className="flex flex-col mt-2"
         >
-          <div className="grid grid-cols-2 gap-4 mb-4">
-            <FormProvider {...methods}>{formContent}</FormProvider>
-          </div>
+          <FormProvider {...methods}>
+            <div className="grid grid-cols-2 gap-4 mb-4">{formContent}</div>
+          </FormProvider>
 
           <div className="ml-auto flex gap-3">
-            <Button type="submit" className="w-max" disabled={!isDirty}>
+            <Button type="submit" className="w-max" disabled={isAllFieldsEmpty}>
               Adicionar
             </Button>
           </div>
         </form>
       }
-    ></Dialog>
+    />
   );
 };
