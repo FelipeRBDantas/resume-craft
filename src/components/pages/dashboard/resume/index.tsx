@@ -9,6 +9,7 @@ import { InfosSidebar } from "./infos-sidebar";
 import { ResumeContent } from "./resume-content";
 import { StructureSidebar } from "./structure-sidebar";
 import { FormProvider, useForm } from "react-hook-form";
+import { useResizePanelDensity } from "@/hooks/use-resize-panel-density";
 
 export const ResumePage = () => {
   const defaultValues: ResumeData = {
@@ -48,12 +49,19 @@ export const ResumePage = () => {
 
   const methods = useForm<ResumeData>({ defaultValues });
 
+  const { layoutDensity, handleResize } = useResizePanelDensity(22, 30);
+
   return (
     <FormProvider {...methods}>
       <main className="w-full h-screen overflow-hidden">
         <ResizablePanelGroup direction="horizontal" className="w-full h-full">
-          <ResizablePanel minSize={20} maxSize={40} defaultSize={30}>
-            <InfosSidebar />
+          <ResizablePanel
+            minSize={20}
+            maxSize={40}
+            defaultSize={30}
+            onResize={handleResize}
+          >
+            <InfosSidebar layoutDensity={layoutDensity} />
           </ResizablePanel>
 
           <ResizableHandle withHandle />
