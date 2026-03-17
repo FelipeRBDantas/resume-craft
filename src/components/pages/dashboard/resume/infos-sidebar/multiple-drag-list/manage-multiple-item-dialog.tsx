@@ -9,6 +9,7 @@ import { InputField } from "@/components/ui/input/field";
 import { EditorField } from "@/components/ui/editor/field";
 import { IconField } from "@/components/ui/icon-input/field";
 import { SliderField } from "@/components/ui/slider/field";
+import { Badge } from "@/components/ui/badge";
 
 type ManageMultipleItemDialogProps = {
   data: MultipleDragItemData;
@@ -155,22 +156,18 @@ const formConfig: FormConfigObject = {
   ],
 };
 
-const FIELD_COMPONENTS: Record<
-  Exclude<FieldType, "keywords">,
-  React.ComponentType<any>
-> = {
+const FIELD_COMPONENTS: Record<FieldType, React.ComponentType<any>> = {
   text: InputField,
   editor: EditorField,
   icon: IconField,
   slider: SliderField,
+  keywords: InputField,
 };
 
 const getDefaultValueByFieldType = (type?: FieldType) => {
   switch (type) {
     case "slider":
       return 1;
-    case "keywords":
-      return [];
     default:
       return "";
   }
@@ -181,6 +178,7 @@ const getDefaultValues = (formKey: ResumeArrayKeys) => {
 
   return config.reduce<Record<string, unknown>>((acc, field) => {
     acc[field.key as string] = getDefaultValueByFieldType(field.fieldType);
+
     return acc;
   }, {});
 };
@@ -222,12 +220,12 @@ export const ManageMultipleItemDialog = ({
     const config = formConfig[data.formKey];
 
     return config.map((field, index) => {
-      if (field.fieldType === "keywords") return null;
-
       const fieldType = (field.fieldType ??
         "text") as keyof typeof FIELD_COMPONENTS;
 
       const Component = FIELD_COMPONENTS[fieldType];
+
+      const isKeywords = fieldType === "keywords";
 
       const inputProps = {
         name: field.key,
@@ -237,6 +235,17 @@ export const ManageMultipleItemDialog = ({
         placeholder: field.placeholder,
         type: field.type,
         className: field.className,
+        ...(isKeywords && {
+          extraContent: (value: string) => (
+            <div className="flex flex-wrap gap-2 mt-1">
+              {value?.split(",")?.map((keyword, index) => {
+                if (!keyword.trim()) return null;
+
+                return <Badge key={`keyword-${index}`}>{keyword}</Badge>;
+              })}
+            </div>
+          ),
+        }),
       };
 
       return (
