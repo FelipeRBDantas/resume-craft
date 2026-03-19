@@ -82,11 +82,11 @@ export const MultiplesSection = () => {
   const onEdit = (section: MultipleDragItemData, index: number) => {
     const currentValues = getValues();
 
-    const currentItems = currentValues.content[section.formKey];
+    const currentItems = currentValues.content?.[section.formKey] ?? [];
 
     setSectionToAdd(section);
 
-    setInitialData(currentItems[index]);
+    setInitialData(currentItems[index] ?? null);
   };
 
   return (
@@ -111,6 +111,7 @@ export const MultiplesSection = () => {
           setOpen={(value) => {
             if (!value) {
               setSectionToAdd(null);
+              setInitialData(null);
             }
           }}
         />

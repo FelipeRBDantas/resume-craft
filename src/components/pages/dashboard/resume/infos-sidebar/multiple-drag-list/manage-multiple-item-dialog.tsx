@@ -200,7 +200,9 @@ export const ManageMultipleItemDialog = ({
     defaultValues: getDefaultValues(data.formKey),
   });
 
-  const { setValue, getValues, reset } = useFormContext();
+  const parentForm = useFormContext();
+
+  const { reset } = methods;
 
   const isEditing = useMemo(() => !!initialData, [initialData]);
 
@@ -275,20 +277,30 @@ export const ManageMultipleItemDialog = ({
   }, [data.formKey]);
 
   const onSubmit = (formData: any) => {
-    const currentValue = getValues();
+    const currentValue = parentForm.getValues();
 
     const formKey = data.formKey;
 
-    const currentFieldValue = currentValue.content[formKey] ?? [];
+    const currentFieldValue = currentValue.content?.[formKey] ?? [];
 
-    setValue(`content.${formKey}`, [
-      ...currentFieldValue,
-      { ...formData, id: uuid() },
-    ]);
+    if (isEditing) {
+      const updatedItems = currentFieldValue.map((item: any) =>
+        item.id === initialData?.id ? { ...formData, id: item.id } : item,
+      );
+
+      parentForm.setValue(`content.${formKey}`, updatedItems);
+
+      toast.success("Item atualizado com sucesso!");
+    } else {
+      parentForm.setValue(`content.${formKey}`, [
+        ...currentFieldValue,
+        { ...formData, id: uuid() },
+      ]);
+
+      toast.success("Item adicionado com sucesso!");
+    }
 
     setOpen(false);
-
-    toast.success("Item adicionado com sucesso!");
   };
 
   return (
