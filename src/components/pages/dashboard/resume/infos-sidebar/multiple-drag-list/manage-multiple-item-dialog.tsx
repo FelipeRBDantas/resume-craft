@@ -6,7 +6,7 @@ import {
   useFormContext,
   useWatch,
 } from "react-hook-form";
-import { Fragment, useMemo } from "react";
+import { Fragment, useEffect, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { InputField } from "@/components/ui/input/field";
@@ -21,6 +21,7 @@ type ManageMultipleItemDialogProps = {
   data: MultipleDragItemData;
   open: boolean;
   setOpen: (open: boolean) => void;
+  initialData: any;
 };
 
 type FieldType = "text" | "editor" | "icon" | "slider" | "keywords";
@@ -193,12 +194,21 @@ export const ManageMultipleItemDialog = ({
   data,
   open,
   setOpen,
+  initialData,
 }: ManageMultipleItemDialogProps) => {
   const methods = useForm({
     defaultValues: getDefaultValues(data.formKey),
   });
 
-  const { setValue, getValues } = useFormContext();
+  const { setValue, getValues, reset } = useFormContext();
+
+  const isEditing = useMemo(() => !!initialData, [initialData]);
+
+  useEffect(() => {
+    if (initialData) {
+      reset(initialData);
+    }
+  }, [initialData, reset]);
 
   const values = useWatch({
     control: methods.control,
