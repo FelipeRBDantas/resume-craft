@@ -276,6 +276,24 @@ export const ManageMultipleItemDialog = ({
     });
   }, [data.formKey]);
 
+  const onDelete = () => {
+    const currentValue = parentForm.getValues();
+
+    const formKey = data.formKey;
+
+    const currentFieldValue = currentValue.content?.[formKey] ?? [];
+
+    const updatedItems = currentFieldValue.filter((item: any) => {
+      return item.id !== initialData?.id;
+    });
+
+    parentForm.setValue(`content.${formKey}`, updatedItems);
+
+    setOpen(false);
+
+    toast.success("Item removido com sucesso!");
+  };
+
   const onSubmit = (formData: any) => {
     const currentValue = parentForm.getValues();
 
@@ -318,8 +336,14 @@ export const ManageMultipleItemDialog = ({
           </FormProvider>
 
           <div className="ml-auto flex gap-3">
+            {isEditing && (
+              <Button variant="destructive" onClick={onDelete}>
+                Remover
+              </Button>
+            )}
+
             <Button type="submit" className="w-max" disabled={isAllFieldsEmpty}>
-              Adicionar
+              {isEditing ? "Salvar" : "Adicionar"}
             </Button>
           </div>
         </form>
