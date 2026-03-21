@@ -127,6 +127,17 @@ export const MultipleDragList = ({
             </Droppable>
           </DragDropContext>
         )}
+
+        {!isEmpty && (
+          <Button
+            variant="outline"
+            className="w-max gap-2 ml-auto mt-4"
+            onClick={onAdd}
+          >
+            <Plus size={16} />
+            Adicionar item
+          </Button>
+        )}
       </div>
     </div>
   );

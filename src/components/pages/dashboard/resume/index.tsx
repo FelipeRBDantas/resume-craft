@@ -24,26 +24,29 @@ export const ResumePage = () => {
         website: "",
       },
       summary: "",
-      socialMedias: [
-        // {
-        //   icon: "",
-        //   name: "Linkedin",
-        //   username: "Feliperbdantas",
-        //   url: "https://www.linkedin.com/in/feliperbdantas0101",
-        // },
-        // {
-        //   icon: "",
-        //   name: "Github",
-        //   username: "Feliperbdantas",
-        //   url: "https://github.com/feliperbdantas",
-        // },
-      ],
+      socialMedias: [],
       experiences: [],
       educations: [],
       skills: [],
       languages: [],
       certifications: [],
       projects: [],
+    },
+    structure: {
+      template: "ditto",
+      colorTheme: "slate",
+      language: "portuguese",
+      layout: {
+        mainSections: [
+          { key: "socialMedias" },
+          { key: "summary" },
+          { key: "experiences" },
+          { key: "educations" },
+          { key: "certifications" },
+          { key: "projects" },
+        ],
+        sidebarSections: [{ key: "languages" }, { key: "skills" }],
+      },
     },
   };
 
