@@ -39,7 +39,14 @@ export const TemplatesListSection = () => {
                     alt={template}
                   />
 
-                  <div className="absolute">{template}</div>
+                  <div
+                    className={cn(
+                      "absolute text-sm inset-0 w-full h-full flex flex-col font-bold font-title capitalize",
+                      "items-center justify-end p-2 bg-gradient-to-t from-background",
+                    )}
+                  >
+                    {template}
+                  </div>
                 </button>
               );
             })}
