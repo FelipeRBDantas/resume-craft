@@ -28,6 +28,35 @@ export const LayoutSection = () => {
   });
 
   const onDragEnd = ({ source, destination }: DropResult) => {
+    if (!destination) return;
+
+    if (source.droppableId !== destination.droppableId) {
+      switch (destination.droppableId) {
+        case "mainFields": {
+          insertMainField(destination.index, sidebarFields[source.index]);
+
+          removeSidebarField(source.index);
+
+          break;
+        }
+        case "sidebarFields": {
+          insertSidebarField(destination.index, mainFields[source.index]);
+
+          removeMainField(source.index);
+
+          break;
+        }
+      }
+
+      return;
+    }
+
+    if (source.droppableId === "mainFields") {
+      moveMainField(source.index, destination.index);
+    } else {
+      moveSidebarField(source.index, destination.index);
+    }
+
     console.log(source, destination);
   };
 
@@ -41,6 +70,16 @@ export const LayoutSection = () => {
             {(provided) => (
               <div ref={provided.innerRef} {...provided.droppableProps}>
                 <LayoutDragList title="Principal" fields={mainFields} />
+
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+
+          <Droppable droppableId="sidebarFields">
+            {(provided) => (
+              <div ref={provided.innerRef} {...provided.droppableProps}>
+                <LayoutDragList title="Barra Lateral" fields={sidebarFields} />
 
                 {provided.placeholder}
               </div>
