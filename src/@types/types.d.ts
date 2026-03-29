@@ -80,7 +80,7 @@ type ResumeContentData = {
   projects: Partial<ResumeProjectData>[];
 }
 
-type ResumeLayoutSections = {
+type ResumeLayoutSection = {
   id?: string;
   key: ResumeSections;
 }
@@ -91,8 +91,8 @@ type ResumeStructureData = {
   template: ResumeTemplates;
   colorTheme: string;
   layout: {
-    mainSections: ResumeLayoutSections[];
-    sidebarSections: ResumeLayoutSections[];
+    mainSections: ResumeLayoutSection[];
+    sidebarSections: ResumeLayoutSection[];
   }
   language: ResumeLanguages;
 }

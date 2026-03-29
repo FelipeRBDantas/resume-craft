@@ -1,10 +1,11 @@
 import { Columns3 } from "lucide-react";
 import { SectionTitle } from "../../infos-sidebar/section-title";
 import { useFieldArray, useFormContext } from "react-hook-form";
-import { DragDropContext, type DropResult } from "@hello-pangea/dnd";
+import { DragDropContext, Droppable, type DropResult } from "@hello-pangea/dnd";
+import { LayoutDragList } from "../layout-drag-list";
 
 export const LayoutSection = () => {
-  const { control } = useFormContext();
+  const { control } = useFormContext<ResumeData>();
 
   const {
     fields: mainFields,
@@ -17,7 +18,7 @@ export const LayoutSection = () => {
   });
 
   const {
-    fields: mainSections,
+    fields: sidebarFields,
     move: moveSidebarField,
     insert: insertSidebarField,
     remove: removeSidebarField,
@@ -35,7 +36,17 @@ export const LayoutSection = () => {
       <SectionTitle title="Estrutura" icon={Columns3} />
 
       <DragDropContext onDragEnd={onDragEnd}>
-        <div></div>
+        <div className="grid grid-cols-2 gap-4 mt-4">
+          <Droppable droppableId="mainFields">
+            {(provided) => (
+              <div ref={provided.innerRef} {...provided.droppableProps}>
+                <LayoutDragList title="Principal" fields={mainFields} />
+
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </div>
       </DragDropContext>
     </div>
   );
