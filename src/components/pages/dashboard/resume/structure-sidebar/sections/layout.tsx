@@ -39,6 +39,7 @@ export const LayoutSection = () => {
 
           break;
         }
+
         case "sidebarFields": {
           insertSidebarField(destination.index, mainFields[source.index]);
 
@@ -56,8 +57,6 @@ export const LayoutSection = () => {
     } else {
       moveSidebarField(source.index, destination.index);
     }
-
-    console.log(source, destination);
   };
 
   return (
