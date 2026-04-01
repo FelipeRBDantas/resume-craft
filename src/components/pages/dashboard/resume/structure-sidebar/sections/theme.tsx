@@ -2,6 +2,8 @@ import { Palette } from "lucide-react";
 import { SectionTitle } from "../../infos-sidebar/section-title";
 import colors from "tailwindcss/colors";
 import { Controller, useFormContext } from "react-hook-form";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 const keysToIgnore = [
   "current",
@@ -14,7 +16,7 @@ const keysToIgnore = [
 
 const colorsKeys = Object.keys(colors).filter(
   (key) => !keysToIgnore.includes(key),
-);
+) as (keyof typeof colors)[];
 
 export const ThemeSection = () => {
   const { control } = useFormContext<ResumeData>();
@@ -27,7 +29,26 @@ export const ThemeSection = () => {
         control={control}
         name="structure.colorTheme"
         render={({ field }) => (
-          <div className="grid grid-cols-7 gap-4 mt-4"></div>
+          <div className="grid grid-cols-7 gap-4 mt-4">
+            {colorsKeys.map((colorKey) => {
+              const isSelected = field.value === colorKey;
+
+              return (
+                <Button
+                  key={colorKey}
+                  variant="ghost"
+                  className={cn(
+                    "w-7 h-7 p-1 rounded-full transition-all",
+                    isSelected && "ring-2 ring-foreground",
+                  )}
+                  onClick={() => field.onChange(colorKey)}
+                  style={{
+                    backgroundColor: colors[colorKey][500],
+                  }}
+                ></Button>
+              );
+            })}
+          </div>
         )}
       />
     </div>
