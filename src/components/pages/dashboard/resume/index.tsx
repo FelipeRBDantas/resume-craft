@@ -10,6 +10,7 @@ import { ResumeContent } from "./resume-content";
 import { StructureSidebar } from "./structure-sidebar";
 import { FormProvider, useForm } from "react-hook-form";
 import { useResizePanelDensity } from "@/hooks/use-resize-panel-density";
+import { useIsMobile } from "@/hooks/use-verify-breakpoint";
 
 export const ResumePage = () => {
   const defaultValues: ResumeData = {
@@ -54,10 +55,15 @@ export const ResumePage = () => {
 
   const { layoutDensity, handleResize } = useResizePanelDensity(22, 30);
 
+  const isMobile = useIsMobile();
+
   return (
     <FormProvider {...methods}>
       <main className="w-full h-screen overflow-hidden">
-        <ResizablePanelGroup direction="horizontal" className="w-full h-full">
+        <ResizablePanelGroup
+          direction={isMobile ? "vertical" : "horizontal"}
+          className="w-full h-full"
+        >
           <ResizablePanel
             minSize={20}
             maxSize={40}
