@@ -100,7 +100,7 @@ export const LayoutDragList = ({ title, fields }: LayoutDragListProps) => {
               >
                 <GripVertical className="w-4 h-4 min-w-4 text-background" />
 
-                <p className="text-accent text-xs font-semibold">
+                <p className="text-accent text-xs font-semibold truncate">
                   {labels[field.key][language]}
                 </p>
               </div>
