@@ -3,6 +3,7 @@
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import { ResumeTemplate } from "./templates";
 import { TransformControls } from "./controls";
+import { NavigationHeader } from "./header";
 
 export const ResumeContent = () => {
   return (
@@ -15,6 +16,8 @@ export const ResumeContent = () => {
         limitToBounds={false}
       >
         <>
+          <NavigationHeader />
+
           <TransformControls />
 
           <TransformComponent>
