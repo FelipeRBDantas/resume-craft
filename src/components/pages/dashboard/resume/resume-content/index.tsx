@@ -9,7 +9,7 @@ export const ResumeContent = () => {
   return (
     <section className="w-full h-full overflow-hidden flex items-center justify-center relative bg-muted dark:background">
       <TransformWrapper
-        initialScale={0.52}
+        initialScale={0.5}
         minScale={0.4}
         centerOnInit
         centerZoomedOut
