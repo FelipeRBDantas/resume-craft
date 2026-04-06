@@ -3,6 +3,7 @@ import Logo from "@/assets/logo.svg";
 import { ThemeToggle } from "@/components/shared/theme-toggle";
 import { Button } from "@/components/ui/button";
 import { Chrome, Github } from "lucide-react";
+import { signIn } from "@/lib/auth";
 
 type Providers = "github" | "google";
 
@@ -12,7 +13,7 @@ export default function LoginPage() {
 
     const provider = form.get("provider") as Providers;
 
-    console.log(provider);
+    await signIn(provider, { redirectTo: "/dashboard/resumes" });
   };
 
   return (
