@@ -4,7 +4,17 @@ import { ThemeToggle } from "@/components/shared/theme-toggle";
 import { Button } from "@/components/ui/button";
 import { Chrome, Github } from "lucide-react";
 
+type Providers = "github" | "google";
+
 export default function LoginPage() {
+  const handleLogin = async (form: FormData) => {
+    "use server";
+
+    const provider = form.get("provider") as Providers;
+
+    console.log(provider);
+  };
+
   return (
     <div className="grid grid-cols-[1.5fr,1fr] h-screen">
       <aside>
@@ -18,7 +28,7 @@ export default function LoginPage() {
         />
       </aside>
 
-      <form className="p-10 flex justify-center flex-col">
+      <form className="p-10 flex justify-center flex-col" action={handleLogin}>
         <div className="flex items-center justify-between mb-10">
           <Logo className="max-w-[90px]" />
 
@@ -35,7 +45,7 @@ export default function LoginPage() {
           <Button
             variant="outline"
             className="w-full gap-2"
-            type="button"
+            type="submit"
             name="provider"
             value="github"
           >
@@ -44,7 +54,7 @@ export default function LoginPage() {
 
           <Button
             className="w-full gap-2"
-            type="button"
+            type="submit"
             name="provider"
             value="google"
           >
