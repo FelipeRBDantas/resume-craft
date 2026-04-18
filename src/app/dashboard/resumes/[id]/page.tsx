@@ -15,8 +15,6 @@ export default async function DashboardResumePage({
 
   if (!resume) return notFound();
 
-  console.log(resume);
-
   const initialData = resume.data as ResumeData;
 
   const session = await auth();
