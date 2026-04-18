@@ -12,6 +12,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { useResizePanelDensity } from "@/hooks/use-resize-panel-density";
 import { useIsMobile } from "@/hooks/use-verify-breakpoint";
 import type { User } from "next-auth";
+import { mergician } from "mergician";
 
 type ResumePageProps = {
   title: string;
@@ -58,7 +59,9 @@ export const ResumePage = ({ title, initialData, user }: ResumePageProps) => {
     },
   };
 
-  const methods = useForm<ResumeData>({ defaultValues });
+  const methods = useForm<ResumeData>({
+    defaultValues: mergician(defaultValues, initialData),
+  });
 
   const { layoutDensity, handleResize } = useResizePanelDensity(22, 30);
 
