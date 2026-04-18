@@ -11,8 +11,15 @@ import { StructureSidebar } from "./structure-sidebar";
 import { FormProvider, useForm } from "react-hook-form";
 import { useResizePanelDensity } from "@/hooks/use-resize-panel-density";
 import { useIsMobile } from "@/hooks/use-verify-breakpoint";
+import type { User } from "next-auth";
 
-export const ResumePage = () => {
+type ResumePageProps = {
+  title: string;
+  initialData: Partial<ResumeData>;
+  user?: User;
+};
+
+export const ResumePage = ({ title, initialData, user }: ResumePageProps) => {
   const defaultValues: ResumeData = {
     content: {
       image: { url: "", visible: true },
