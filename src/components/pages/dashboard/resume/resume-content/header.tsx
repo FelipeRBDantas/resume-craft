@@ -3,6 +3,7 @@ import { Tooltip } from "@/components/ui/tooltip";
 import { Copy, Download, Home, Trash } from "lucide-react";
 import Link from "next/link";
 import { DeleteResumeDialog } from "./delete-resume-dialog";
+import { DuplicateResumeDialog } from "./duplicate-resume-dialog";
 
 type NavigationHeaderProps = {
   title: string;
@@ -42,15 +43,17 @@ export const NavigationHeader = ({ title }: NavigationHeaderProps) => {
           </Tooltip>
         </DeleteResumeDialog>
 
-        <Tooltip content="Duplicar Currículo">
-          <Button
-            variant="secondary"
-            className="w-8 h-8 bg-transparent"
-            size="icon"
-          >
-            <Copy size={18} />
-          </Button>
-        </Tooltip>
+        <DuplicateResumeDialog>
+          <Tooltip content="Duplicar Currículo">
+            <Button
+              variant="secondary"
+              className="w-8 h-8 bg-transparent"
+              size="icon"
+            >
+              <Copy size={18} />
+            </Button>
+          </Tooltip>
+        </DuplicateResumeDialog>
 
         <Tooltip content="Baixar PDF">
           <Button

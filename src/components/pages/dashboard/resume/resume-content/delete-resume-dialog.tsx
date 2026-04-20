@@ -39,7 +39,9 @@ export const DeleteResumeDialog = (props: BaseDialogProps) => {
       description="Você tem certeza que deseja deletar este currículo?"
       content={
         <div className="flex gap-2 ml-auto">
-          <Button onClick={() => setOpen(false)}>Cancelar</Button>
+          <Button variant="secondary" onClick={() => setOpen(false)}>
+            Cancelar
+          </Button>
 
           <Button variant="destructive" onClick={onDelete}>
             Deletar
