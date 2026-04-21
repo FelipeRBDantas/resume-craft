@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Dialog, type BaseDialogProps } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import { duplicateResume } from "@/db/actions";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -25,11 +26,11 @@ export const DuplicateResumeDialog = (props: BaseDialogProps) => {
 
   const onSubmit = async (data: FormData) => {
     try {
-      console.log(data);
+      const newResume = await duplicateResume(resumeId, data.title);
 
-      // await deleteResume(resumeId);
-      // toast.success("Currículo duplicado com sucesso.");
-      // router.push("/dashboard/resumes");
+      toast.success("Currículo duplicado com sucesso.");
+
+      router.push(`/dashboard/resumes/${newResume.id}`);
     } catch (error) {
       console.error(error);
 

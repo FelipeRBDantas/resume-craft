@@ -14,7 +14,7 @@ export const DeleteResumeDialog = (props: BaseDialogProps) => {
 
   const router = useRouter();
 
-  const resumeId = params.resumeId as string;
+  const resumeId = params.id as string;
 
   const onDelete = async () => {
     try {
