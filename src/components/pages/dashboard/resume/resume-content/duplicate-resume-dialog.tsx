@@ -22,7 +22,7 @@ export const DuplicateResumeDialog = (props: BaseDialogProps) => {
 
   const router = useRouter();
 
-  const resumeId = params.resumeId as string;
+  const resumeId = params.id as string;
 
   const onSubmit = async (data: FormData) => {
     try {
