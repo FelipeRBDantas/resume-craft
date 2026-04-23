@@ -27,7 +27,7 @@ export const ResumeContent = ({ title }: ResumeContentProps) => {
         <>
           <NavigationHeader title={title} />
 
-          <TransformControls />
+          <TransformControls title={title} />
 
           <TransformComponent>
             <ResumeTemplate data={data} />
