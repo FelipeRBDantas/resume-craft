@@ -1,13 +1,10 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Dialog, type BaseDialogProps } from "@/components/ui/dialog";
+import { BaseDialogProps, Dialog } from "@/components/ui/dialog";
 import { InputField } from "@/components/ui/input/field";
-import { createResume } from "@/db/actions";
-import { useMutation } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
 import { FormProvider, useForm } from "react-hook-form";
-import { toast } from "sonner";
+import { useCreateResume } from "@/hooks/use-create-resume";
 
 type FormData = {
   title: string;
@@ -16,18 +13,9 @@ type FormData = {
 export const NewResumeDialog = (props: BaseDialogProps) => {
   const methods = useForm<FormData>();
 
-  const router = useRouter();
+  const { handleCreateResume, isPending } = useCreateResume();
 
-  const { mutate: handleCreateResume, isPending } = useMutation({
-    mutationFn: createResume,
-    onSuccess: (resume) => {
-      toast.success("Currículo criado com sucesso!");
-
-      router.push(`/dashboard/resumes/${resume.id}`);
-    },
-  });
-
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = (data: FormData) => {
     handleCreateResume(data.title);
   };
 
