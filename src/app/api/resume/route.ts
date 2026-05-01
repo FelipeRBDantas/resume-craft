@@ -12,6 +12,7 @@ export async function POST(req: Request) {
     return NextResponse.json(
       {
         message: "Erro ao criar currículo",
+        error,
       },
       {
         status: 500,

@@ -30,6 +30,6 @@ export const useCreateResume = () => {
 
   return {
     handleCreateResume: mutation.mutate,
-    isPending: mutation.isPending,
+    ...mutation
   };
 };
