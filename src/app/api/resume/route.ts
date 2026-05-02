@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { createResume } from "@/db/actions";
+import { createResume, deleteResume } from "@/db/actions";
 
 export async function POST(req: Request) {
   try {

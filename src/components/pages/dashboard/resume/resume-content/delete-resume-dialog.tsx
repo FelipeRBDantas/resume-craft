@@ -2,32 +2,25 @@
 
 import { Button } from "@/components/ui/button";
 import { Dialog, type BaseDialogProps } from "@/components/ui/dialog";
-import { deleteResume } from "@/db/actions";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { useState } from "react";
-import { toast } from "sonner";
+import { useDeleteResume } from "@/hooks/use-delete-resume";
 
 export const DeleteResumeDialog = (props: BaseDialogProps) => {
   const [open, setOpen] = useState(false);
 
   const params = useParams();
 
-  const router = useRouter();
-
   const resumeId = params.id as string;
 
-  const onDelete = async () => {
-    try {
-      await deleteResume(resumeId);
+  const { handleDeleteResume, isPending } = useDeleteResume();
 
-      toast.success("Currículo deletado com sucesso.");
-
-      router.push("/dashboard/resumes");
-    } catch (error) {
-      console.error(error);
-
-      toast.error("Erro ao deletar currículo, tente novamente mais tarde.");
-    }
+  const onDelete = () => {
+    handleDeleteResume(resumeId, {
+      onSuccess: () => {
+        setOpen(false);
+      },
+    });
   };
 
   return (
@@ -43,7 +36,7 @@ export const DeleteResumeDialog = (props: BaseDialogProps) => {
             Cancelar
           </Button>
 
-          <Button variant="destructive" onClick={onDelete}>
+          <Button variant="destructive" onClick={onDelete} disabled={isPending}>
             Deletar
           </Button>
         </div>
