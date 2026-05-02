@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { createResume, deleteResume } from "@/db/actions";
+import { deleteResume } from "@/db/actions";
 
 export async function DELETE(
   _req: Request,

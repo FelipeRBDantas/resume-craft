@@ -3,11 +3,10 @@
 import { Button } from "@/components/ui/button";
 import { Dialog, type BaseDialogProps } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { duplicateResume } from "@/db/actions";
+import { useDuplicateResume } from "@/hooks/use-duplicate-resume";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { toast } from "sonner";
 
 type FormData = {
   title: string;
@@ -24,18 +23,13 @@ export const DuplicateResumeDialog = (props: BaseDialogProps) => {
 
   const resumeId = params.id as string;
 
-  const onSubmit = async (data: FormData) => {
-    try {
-      const newResume = await duplicateResume(resumeId, data.title);
+  const { handleDuplicateResume, isPending } = useDuplicateResume();
 
-      toast.success("Currículo duplicado com sucesso.");
-
-      router.push(`/dashboard/resumes/${newResume.id}`);
-    } catch (error) {
-      console.error(error);
-
-      toast.error("Erro ao duplicar currículo, tente novamente mais tarde.");
-    }
+  const onSubmit = (data: FormData) => {
+    handleDuplicateResume({
+      id: resumeId,
+      title: data.title,
+    });
   };
 
   return (
@@ -64,7 +58,9 @@ export const DuplicateResumeDialog = (props: BaseDialogProps) => {
               Cancelar
             </Button>
 
-            <Button type="submit">Duplicar</Button>
+            <Button type="submit" disabled={isPending}>
+              Duplicar
+            </Button>
           </div>
         </form>
       }
