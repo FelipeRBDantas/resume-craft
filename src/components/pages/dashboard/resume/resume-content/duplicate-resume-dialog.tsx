@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Dialog, type BaseDialogProps } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { useDuplicateResume } from "@/hooks/use-duplicate-resume";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 
@@ -18,8 +18,6 @@ export const DuplicateResumeDialog = (props: BaseDialogProps) => {
   const methods = useForm<FormData>();
 
   const params = useParams();
-
-  const router = useRouter();
 
   const resumeId = params.id as string;
 

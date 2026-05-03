@@ -1,8 +1,10 @@
-import { api } from "@/lib/axios"
 import { useFormContext } from "react-hook-form";
+import { useGetUrlResume } from "./use-get-url-resume";
 
 export const useResumeDownload = (title?: string) => {
   const { getValues } = useFormContext<ResumeData>();
+
+  const { mutateAsync: handleGetUrlResume, isPending } = useGetUrlResume();
 
   const handleDownloadResume = async () => {
     const resume = document.getElementById("resume-content");
@@ -11,14 +13,7 @@ export const useResumeDownload = (title?: string) => {
 
     const structure = getValues("structure");
 
-    const { data } = await api.post("/resume/download", {
-      html: resume.outerHTML,
-      structure,
-    }, {
-      responseType: "blob"
-    });
-
-    const url = window.URL.createObjectURL(data);
+    const url = await handleGetUrlResume({ html: resume.outerHTML, structure });
 
     const link = document.createElement("a");
 
@@ -33,5 +28,8 @@ export const useResumeDownload = (title?: string) => {
     link.remove();
   }
 
-  return { handleDownloadResume }
+  return { 
+    handleDownloadResume, 
+    isLoading: isPending 
+  }
 }

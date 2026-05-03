@@ -21,9 +21,9 @@ export const useDeleteResume = () => {
         queryKey: ["resumes"],
       });
 
-      router.refresh();
-
       router.push("/dashboard/resumes");
+      
+      router.refresh();
     },
   });
 
