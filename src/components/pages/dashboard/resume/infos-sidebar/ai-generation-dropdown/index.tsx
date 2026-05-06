@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import type { ResizePanelDensity } from "@/hooks/use-resize-panel-density";
-import { Bot } from "lucide-react";
+import { BadgeCent, Bot } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -27,8 +27,16 @@ export const AIGenerationDropdown = ({
         </Button>
       </DropdownMenuTrigger>
       
-      <DropdownMenuContent>
-        <DropdownMenuLabel>My Account</DropdownMenuLabel>
+      <DropdownMenuContent sideOffset={10} align="start">
+        <DropdownMenuLabel className="text-muted-foreground text-xs flex items-center gap-1">
+          Você possui{" "}
+
+          <strong className="text-foreground inline-flex items-center gap-0.5">
+            <BadgeCent size={14} />
+
+            20 créditos
+          </strong>
+        </DropdownMenuLabel>
 
         <DropdownMenuSeparator />
 
