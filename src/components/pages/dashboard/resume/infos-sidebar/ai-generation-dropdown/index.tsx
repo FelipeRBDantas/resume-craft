@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import type { ResizePanelDensity } from "@/hooks/use-resize-panel-density";
-import { BadgeCent, Bot } from "lucide-react";
+import { BadgeCent, Bot, BriefcaseBusiness, CirclePercent, Languages, PencilLine } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,6 +17,29 @@ type AIGenerationDropdownProps = {
 export const AIGenerationDropdown = ({
   layoutDensity,
 }: AIGenerationDropdownProps) => {
+  const actions = [
+    {
+      label: "Comprar créditos",
+      icon: CirclePercent,
+      onClick: () => console.log("Comprar créditos"),
+    },
+    {
+      label: "Gerar conteúdo para vaga de emprego",
+      icon: BriefcaseBusiness,
+      onClick: () => console.log("Gerar conteúdo para vaga de emprego"),
+    },
+    {
+      label: "Melhorar e corrigir conteúdo existente",
+      icon: PencilLine,
+      onClick: () => console.log("Melhorar e corrigir conteúdo existente"),
+    },
+    {
+      label: "Traduzir conteúdo existente",
+      icon: Languages,
+      onClick: () => console.log("Traduzir conteúdo existente"),
+    },
+  ];
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -40,13 +63,17 @@ export const AIGenerationDropdown = ({
 
         <DropdownMenuSeparator />
 
-        <DropdownMenuItem>Profile</DropdownMenuItem>
+        {actions.map(action => (
+          <DropdownMenuItem
+            key={action.label}
+            className="gap-2"
+            onClick={action.onClick}
+          >
+            {action.icon && <action.icon size={18} className="text-muted-foreground" />}
 
-        <DropdownMenuItem>Billing</DropdownMenuItem>
-
-        <DropdownMenuItem>Team</DropdownMenuItem>
-        
-        <DropdownMenuItem>Subscription</DropdownMenuItem>
+            {action.label}
+          </DropdownMenuItem>
+        ))}
       </DropdownMenuContent>
     </DropdownMenu>
   );
