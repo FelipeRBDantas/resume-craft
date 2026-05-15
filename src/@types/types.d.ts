@@ -112,4 +112,6 @@ type ResumeSections =
   | "certifications"
   | "projects";
 
-type ResumeTemplates = "eevee" | "onix" | "jynx" | "ditto"
+type ResumeTemplates = "eevee" | "onix" | "jynx" | "ditto";
+
+type AIGenerationMode = "JOB_TITLE" | "FIX_CONTENT" | "TRANSLATE_CONTENT";

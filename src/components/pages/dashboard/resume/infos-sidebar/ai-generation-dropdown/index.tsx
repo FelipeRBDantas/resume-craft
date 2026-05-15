@@ -41,40 +41,42 @@ export const AIGenerationDropdown = ({
   ];
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button className="gap-2 text-xs px-2.5 py-1 h-9">
-          <Bot size={20} />
+    <>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button className="gap-2 text-xs px-2.5 py-1 h-9">
+            <Bot size={20} />
 
-          {layoutDensity === "compact" ? "IA" : "Inteligência Artificial"}
-        </Button>
-      </DropdownMenuTrigger>
-      
-      <DropdownMenuContent sideOffset={10} align="start">
-        <DropdownMenuLabel className="text-muted-foreground text-xs flex items-center gap-1">
-          Você possui{" "}
+            {layoutDensity === "compact" ? "IA" : "Inteligência Artificial"}
+          </Button>
+        </DropdownMenuTrigger>
+        
+        <DropdownMenuContent sideOffset={10} align="start">
+          <DropdownMenuLabel className="text-muted-foreground text-xs flex items-center gap-1">
+            Você possui{" "}
 
-          <strong className="text-foreground inline-flex items-center gap-0.5">
-            <BadgeCent size={14} />
+            <strong className="text-foreground inline-flex items-center gap-0.5">
+              <BadgeCent size={14} />
 
-            20 créditos
-          </strong>
-        </DropdownMenuLabel>
+              20 créditos
+            </strong>
+          </DropdownMenuLabel>
 
-        <DropdownMenuSeparator />
+          <DropdownMenuSeparator />
 
-        {actions.map(action => (
-          <DropdownMenuItem
-            key={action.label}
-            className="gap-2"
-            onClick={action.onClick}
-          >
-            {action.icon && <action.icon size={18} className="text-muted-foreground" />}
+          {actions.map(action => (
+            <DropdownMenuItem
+              key={action.label}
+              className="gap-2"
+              onClick={action.onClick}
+            >
+              {action.icon && <action.icon size={18} className="text-muted-foreground" />}
 
-            {action.label}
-          </DropdownMenuItem>
-        ))}
-      </DropdownMenuContent>
-    </DropdownMenu>
+              {action.label}
+            </DropdownMenuItem>
+          ))}
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </>
   );
 };
