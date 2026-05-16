@@ -7,6 +7,7 @@ type EditorFieldProps = {
   name: string;
   containerClassName?: string;
   required?: boolean;
+  className?: string;
 };
 
 export const EditorField = ({

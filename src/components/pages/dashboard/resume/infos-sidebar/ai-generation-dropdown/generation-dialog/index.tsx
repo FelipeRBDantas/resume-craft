@@ -1,4 +1,5 @@
 import { BaseDialogProps, Dialog } from "@/components/ui/dialog"
+import { GenerateFromJobTitle } from "./job-title";
 
 type GenerationDialogProps = BaseDialogProps & {
     mode: AIGenerationMode;
@@ -6,7 +7,7 @@ type GenerationDialogProps = BaseDialogProps & {
 
 export const GenerationDialog = ({ mode, ...props }: GenerationDialogProps) => {
     const configPerMode: Record<AIGenerationMode, JSX.Element> = {
-        JOB_TITLE: <p>Gerar descrição para vaga de emprego</p>,
+        JOB_TITLE: <GenerateFromJobTitle />,
         FIX_CONTENT: <p>Melhorar e corrigir conteúdo existente</p>,
         TRANSLATE_CONTENT: <p>Traduzir conteúdo existente</p>,
     }
