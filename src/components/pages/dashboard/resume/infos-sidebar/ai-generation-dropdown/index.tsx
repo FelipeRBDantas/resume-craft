@@ -9,6 +9,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { useState } from "react";
+import { GenerationDialog } from "./generation-dialog";
 
 type AIGenerationDropdownProps = {
   layoutDensity: ResizePanelDensity;
@@ -17,26 +19,28 @@ type AIGenerationDropdownProps = {
 export const AIGenerationDropdown = ({
   layoutDensity,
 }: AIGenerationDropdownProps) => {
+  const [generationMode, setGenerationMode] = useState<AIGenerationMode | null>(null);
+
   const actions = [
     {
       label: "Comprar créditos",
       icon: CirclePercent,
-      onClick: () => console.log("Comprar créditos"),
+      onClick: () => console.log("Comprar créditos")
     },
     {
       label: "Gerar conteúdo para vaga de emprego",
       icon: BriefcaseBusiness,
-      onClick: () => console.log("Gerar conteúdo para vaga de emprego"),
+      onClick: () => setGenerationMode("JOB_TITLE")
     },
     {
       label: "Melhorar e corrigir conteúdo existente",
       icon: PencilLine,
-      onClick: () => console.log("Melhorar e corrigir conteúdo existente"),
+      onClick: () => setGenerationMode("FIX_CONTENT")
     },
     {
       label: "Traduzir conteúdo existente",
       icon: Languages,
-      onClick: () => console.log("Traduzir conteúdo existente"),
+      onClick: () => setGenerationMode("TRANSLATE_CONTENT"),
     },
   ];
 
@@ -77,6 +81,16 @@ export const AIGenerationDropdown = ({
           ))}
         </DropdownMenuContent>
       </DropdownMenu>
+
+      {!!generationMode && (
+        <GenerationDialog
+          mode={generationMode}
+          open={!!generationMode}
+          setOpen={(value) => {
+            if (!value) setGenerationMode(null)
+          }}
+        />
+      )}
     </>
   );
 };
