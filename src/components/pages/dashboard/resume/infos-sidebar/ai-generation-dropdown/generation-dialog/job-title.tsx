@@ -17,11 +17,11 @@ export const GenerateFromJobTitle = () => {
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
-            <InputField name="jobTitle" label="Título da vaga" placeholder="Ex: Desenvolvedor Front-end" required />
+            <InputField control={control} name="jobTitle" label="Título da vaga" placeholder="Ex: Desenvolvedor Front-end" required />
             
-            <EditorField name="jobDescription" label="Descrição da vaga (Opcional)" className="min-h-[200px] max-h-[300px]" />
+            <EditorField control={control} name="jobDescription" label="Descrição da vaga (Opcional)" className="min-h-[200px] max-h-[300px]" />
         
-            <Button type="submit" className="w-max ml-auto">
+            <Button type="submit" className="w-max ml-auto" disabled={formState.isSubmitting}>
                 Gerar conteúdo
             </Button>
         </form>
