@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { EditorField } from "@/components/ui/editor/field";
 import { InputField } from "@/components/ui/input/field";
+import { useJobTitle } from "@/hooks/use-job-title";
 import { useForm } from "react-hook-form";
 
 type FormData = {
@@ -11,7 +12,11 @@ type FormData = {
 export const GenerateFromJobTitle = () => {
     const { control, formState, handleSubmit } = useForm<FormData>();
 
+    const { handleGenerateContentForJob, isPending } = useJobTitle();
+
     const onSubmit = (data: FormData) => {
+        handleGenerateContentForJob(data);
+
         console.log(data);
     }
 
