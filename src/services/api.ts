@@ -17,7 +17,7 @@ export type AIGenerationPayload = {
 }
 
 const generateContentForJob = async (payload: AIGenerationPayload) => {
-  const { data } = await api.post("/resume/job-title", payload);
+  const { data } = await api.post("/generate/job-title", payload);
 
   return data;
 }
